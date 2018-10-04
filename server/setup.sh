@@ -8,10 +8,10 @@ easyRsaFolder='/usr/share/easy-rsa/2.0'
 #####################################################################
 # Copy vars and server.conf                                         #
 #####################################################################
-sudo mkdir /etc/openvpn
-sudo mkdir /etc/openvpn/keys
-sudo cp ./vars /etc/openvpn/vars
-sudo cp ./dh2048.pem /etc/openvpn/keys
+sudo mkdir /etc/openvpn \
+  && sudo mkdir /etc/openvpn/keys \
+  && sudo cp ./vars /etc/openvpn/vars \
+  && sudo cp ./dh2048.pem /etc/openvpn/keys
 #####################################################################
 
 #####################################################################
