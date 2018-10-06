@@ -6,9 +6,8 @@
 * Ssh into the instance
 * Execute following commands from a terminal window:
 ```
-git clone https://github.com/vkhazin/openvpn-site2site.git --depth=1 \
-  && cd ./openvpn-site2site \
-  && chmod +x ./server/setup.sh \
-  && ./server/setup.sh
-  # && echo -e "\nPlease note the public server ip for the client setup: \e[1;32m`curl -s ipinfo.io/ip`\e[0m \n"
+git clone https://github.com/vkhazin/openvpn-site2site.git --depth=1 &&
+cd ./openvpn-site2site &&
+chmod +x ./server/setup.sh &&
+./server/setup.sh &&
 ```
