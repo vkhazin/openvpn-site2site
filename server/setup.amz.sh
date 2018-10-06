@@ -1,3 +1,7 @@
+
+echo 'Not working yet'
+exit -1
+
 #####################################################################
 # Initialize the variables                                          #
 #####################################################################
@@ -28,10 +32,11 @@ sudo cp ./server/server.conf /etc/openvpn/server-tcp-443.conf \
 #####################################################################
 
 #####################################################################
-# Install OpenVpn                                                   #
+# Install OpenVpn using epel repositories                           #
 #####################################################################
-sudo apt-get update -y \
-  && sudo apt-get install openvpn -y
+sudo amazon-linux-extras install epel -y \
+  && sudo yum update -y \
+  && sudo yum install openvpn -y
 #####################################################################
 
 #####################################################################
