@@ -11,7 +11,7 @@ export easyRsaFolder='/usr/share/easy-rsa'
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections \
   && echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections \
   && sudo apt-get update \
-  && sudo apt-get iptables-persistent openvpn easy-rsa -y
+  && sudo apt-get install iptables-persistent openvpn easy-rsa -y
 #####################################################################
 
 #####################################################################
