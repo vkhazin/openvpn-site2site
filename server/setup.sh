@@ -24,6 +24,7 @@ sudo cp $sourceFolder/dh2048.pem $openVpnConfigFolder/keys &&
 #####################################################################
 # Configure server.conf                                             #
 #####################################################################
+echo -e "\n" | sudo tee --append $sourceFolder/server.conf &&
 sudo cp $sourceFolder/server.conf $openVpnConfigFolder/server-tcp-443.conf &&
 echo "port 443" | sudo tee --append $openVpnConfigFolder/server-tcp-443.conf &&
 echo "proto tcp-server" | sudo tee --append $openVpnConfigFolder/server-tcp-443.conf &&
