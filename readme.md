@@ -9,5 +9,5 @@
 git clone https://github.com/vkhazin/openvpn-site2site.git --depth=1 &&
 cd ./openvpn-site2site &&
 chmod +x ./server/setup.sh &&
-./server/setup.sh &&
+./server/setup.sh
 ```

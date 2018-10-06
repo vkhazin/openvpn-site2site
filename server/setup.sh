@@ -16,7 +16,6 @@ sudo apt-get install openvpn easy-rsa -y &&
 #####################################################################
 # Copy vars and server.conf                                         #
 #####################################################################
-sudo mkdir $openVpnConfigFolder &&
 sudo mkdir $openVpnConfigFolder/keys &&
 sudo cp $sourceFolder/vars $openVpnConfigFolder/vars &&
 sudo cp $sourceFolder/dh2048.pem $openVpnConfigFolder/keys &&
