@@ -1,70 +1,48 @@
-# Initialize the variables:
-source ../vars
-
-# Capture current folder
-startFolder=`pwd`
-easyRsaFolder='/usr/share/easy-rsa/2.0'
+#####################################################################
+# Initialize the variables                                          #
+#####################################################################
+source ./vars
+source ./server/vars
+#####################################################################
 
 #####################################################################
 # Copy vars and server.conf                                         #
 #####################################################################
 sudo mkdir /etc/openvpn \
   && sudo mkdir /etc/openvpn/keys \
-  && sudo cp ./vars /etc/openvpn/vars \
-  && sudo cp ./dh2048.pem /etc/openvpn/keys
+  && sudo cp ./server/vars /etc/openvpn/vars \
+  && sudo cp ./server/keys/* /etc/openvpn/keys
 #####################################################################
 
 #####################################################################
-# Configure server.conf                                         #
+# Configure server.conf                                             #
 #####################################################################
-sudo cp ./server.conf /etc/openvpn/server-tcp-443.conf
-echo "port 443" | sudo tee --append /etc/openvpn/server-tcp-443.conf
-echo "proto tcp-server" | sudo tee --append /etc/openvpn/server-tcp-443.conf
-echo "server $server_nw_subnet $server_nw_mask" | sudo tee --append /etc/openvpn/server-tcp-443.conf
-
-sudo cp ./server.conf /etc/openvpn/server-udp-1194.conf
-echo "port 1194" | sudo tee --append /etc/openvpn/server-udp-1194.conf
-echo "proto udp" | sudo tee --append /etc/openvpn/server-udp-1194.conf
-echo "server $server_nw_subnet $server_nw_mask" | sudo tee --append /etc/openvpn/server-udp-1194.conf
+sudo cp ./server.conf /etc/openvpn/server-tcp-443.conf \
+  && echo "port 443" | sudo tee --append /etc/openvpn/server-tcp-443.conf \
+  && echo "proto tcp-server" | sudo tee --append /etc/openvpn/server-tcp-443.conf \
+  && echo "server $server_nw_subnet $server_nw_mask" | sudo tee --append /etc/openvpn/server-tcp-443.conf \
+  && sudo cp ./server.conf /etc/openvpn/server-udp-1194.conf \
+  && echo "port 1194" | sudo tee --append /etc/openvpn/server-udp-1194.conf \
+  && echo "proto udp" | sudo tee --append /etc/openvpn/server-udp-1194.conf \
+  && echo "server $server_nw_subnet $server_nw_mask" | sudo tee --append /etc/openvpn/server-udp-1194.conf
 #####################################################################
-
-# Update distro
-sudo yum update -y
-# Install OpenVpn using epel repositories
-sudo yum -y install epel-release
-sudo yum install openvpn -y
-# Install and configure easy-rsa - not sure we need it on every srv
-sudo yum install easy-rsa -y
 
 #####################################################################
-# Generate Server keys                                              #
+# Install OpenVpn using epel repositories                           #
 #####################################################################
-cd $easyRsaFolder
-source /etc/openvpn/vars
-sudo -E ./clean-all
-sudo -E ./build-ca --batch
-sudo -E ./build-key-server --batch server
+sudo amazon-linux-extras install epel -y \
+  && sudo yum update -y \
+  && sudo yum install openvpn -y
+#####################################################################
+
+#####################################################################
+# Generate OpenVpn Key                           #
+#####################################################################
 sudo -E openvpn --genkey --secret /etc/openvpn/keys/ta.key
-# Takes too long to generate on every setup
-#openssl dhparam -out ./keys/dh2048.pem 2048
 #####################################################################
 
 #####################################################################
-# Generate Client keys                                              #
-#####################################################################
-clientId=client #$(uuidgen)
-sudo -E ./build-key --batch $clientId
-#####################################################################
-
-#####################################################################
-# Copy keys to /etc/openvpn/keys                                    #
-#####################################################################
-sudo cp $startFolder/dh2048.pem /etc/openvpn/keys
-sudo cp -r $easyRsaFolder/keys/ /etc/openvpn
-#####################################################################
-
-#####################################################################
-# Start Service                                                     #
+# Start OpenVpn Service                                             #
 #####################################################################
 sudo service openvpn start
 #####################################################################
@@ -78,20 +56,12 @@ sudo sysctl -w net.ipv4.ip_forward=1
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 sudo iptables -A FORWARD -i eth0 -o tun0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i tun0 -o eth0 -j ACCEPT
-#sudo bash -c "iptables-save > /etc/iptables/rules.v4"
-# Persist nat rules
 sudo service iptables save
 #####################################################################
 
 #####################################################################
-# Copy keys to home directory                                       #
+# Capture Server IP                                                 #
 #####################################################################
-cd "$startFolder"
-mkdir ./client
-sudo cp /etc/openvpn/keys/$clientId.crt ./client
-sudo cp /etc/openvpn/keys/$clientId.key ./client
-sudo cp /etc/openvpn/keys/ca.crt ./client
-sudo cp /etc/openvpn/keys/ta.key ./client
 sudo curl ipinfo.io/ip > ./client/server.ip
 
 #####################################################################
