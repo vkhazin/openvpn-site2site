@@ -1,2 +1,0 @@
-V	281002183113Z		01	unknown	/C=US/ST=CA/L=SanFrancisco/O=Fort-Funston/OU=MyOrganizationalUnit/CN=server/name=EasyRSA/emailAddress=me@myhost.mydomain
-V	281002183456Z		02	unknown	/C=US/ST=CA/L=SanFrancisco/O=Fort-Funston/OU=MyOrganizationalUnit/CN=openvpn-client/name=EasyRSA/emailAddress=me@myhost.mydomain
