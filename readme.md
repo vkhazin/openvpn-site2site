@@ -46,3 +46,10 @@ chmod +x ./client/client.sh &&
 * Run the setup: `./client/setup.sh`
 * https://docs.aws.amazon.com/vpc/latest/userguide/VPC_NAT_Instance.html#EIP_Disable_SrcDestCheck
 * https://askubuntu.com/questions/948817/ubuntu-16-04-auto-start-vpn
+
+## TODO:
+
+* Server is no NAT it is ROUTE
+* Client NAT is missing
+* Route tables on the client and the server end are missing
+* Security groups rules may be missing too
