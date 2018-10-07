@@ -92,4 +92,11 @@ echo "</key>" | sudo tee --append $sourceFolder/client.conf &&
 echo "key-direction 1" | sudo tee --append $sourceFolder/client.conf &&
 echo "<tls-auth>" | sudo tee --append $sourceFolder/client.conf &&
 sudo cat $openVpnConfigFolder/keys/ta.key | sudo tee --append $sourceFolder/client.conf &&
-echo "</tls-auth>" | sudo tee --append $sourceFolder/client.conf
+echo "</tls-auth>" | sudo tee --append $sourceFolder/client.conf &&
+#####################################################################
+
+#####################################################################
+# Restart the service                                               #
+#####################################################################
+sudo service openvpn restart
+#####################################################################
