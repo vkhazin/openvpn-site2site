@@ -1,38 +1,21 @@
 #####################################################################
 # Initialize the variables                                          #
 #####################################################################
-source ./vars
-source ./client/vars
+source ../vars &&
+source ./client/vars &&
 
-#####################################################################
-# Set server ip                                                     #
-#####################################################################
-echo "remote" $serverId "1194 udp" | sudo tee --append ./client/client.conf
-echo "remote" $serverId "443 tcp" | sudo tee --append ./client/client.conf
+sudo apt-get update &&
+sudo apt-get install openvpn awscli -y &&
 
-#####################################################################
 
-#####################################################################
-# Copy vars and client.conf                                         #
-#####################################################################
-sudo mkdir /etc/openvpn \
-  && sudo mkdir /etc/openvpn/keys \
-  && sudo cp ./client/keys/* /etc/openvpn/keys \
-  && sudo cp ./client/client.conf /etc/openvpn/client.conf
-#####################################################################
+# export instanceId=`curl -s http://169.254.169.254/latest/meta-data/instance-id` &&
+# aws ec2 modify-instance-attribute \
+#         --instance-id $instanceId \
+#         --no-source-dest-check
 
-#####################################################################
-# Start OpenVpn Service                                             #
-#####################################################################
-sudo service openvpn start
-#####################################################################
+# aws ec2  
+#         modify-instance-attribute \
+#         --no-source-dest-check
 
-#####################################################################
-# Configure Forwarding and Nat                                      #
-#####################################################################
-sudo sysctl -w net.ipv4.ip_forward=1
-sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-sudo iptables -A FORWARD -i eth0 -o tun0 -m state --state RELATED,ESTABLISHED -j ACCEPT
-sudo iptables -A FORWARD -i tun0 -o eth0 -j ACCEPT
-sudo service iptables save
-#####################################################################
+# Disable source/dest check
+# Configure route from-to client/server

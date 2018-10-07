@@ -1,2 +1,9 @@
-export server_nw_subnet='172.16.254.0'
+export server_nw_subnet='10.0.0.0'
 export server_nw_mask='255.255.255.0'
+
+export vpn_nw_subnet='172.16.254.0'
+export vpn_nw_mask='255.255.255.0'
+
+export client_nw_subnet='172.31.0.0'
+export client_nw_mask='255.255.255.0'
+

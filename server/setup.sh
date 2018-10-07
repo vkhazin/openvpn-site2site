@@ -1,6 +1,7 @@
 #####################################################################
 # Set up variables                                                  #
 #####################################################################
+source ../vars
 export sourceFolder=`pwd`/server &&
 export easyRsaFolder='/usr/share/easy-rsa' &&
 export openVpnConfigFolder='/etc/openvpn' &&
@@ -24,15 +25,20 @@ sudo cp $sourceFolder/dh2048.pem $openVpnConfigFolder/keys &&
 #####################################################################
 # Configure server.conf                                             #
 #####################################################################
+# common settings
 echo -e "\n" | sudo tee --append $sourceFolder/server.conf &&
+echo "server $vpn_nw_subnet $vpn_nw_mask" | sudo tee --append $sourceFolder/server.conf &&
+echo "route $client_nw_subnet $client_nw_mask" | sudo tee --append $sourceFolder/server.conf &&
+echo "push \"route $client_nw_subnet $client_nw_mask\"" | sudo tee --append $sourceFolder/server.conf &&
+echo "push \"route $server_nw_subnet $server_nw_mask\"" | sudo tee --append $sourceFolder/server.conf &&
+# tcp
 sudo cp $sourceFolder/server.conf $openVpnConfigFolder/server-tcp-443.conf &&
 echo "port 443" | sudo tee --append $openVpnConfigFolder/server-tcp-443.conf &&
 echo "proto tcp-server" | sudo tee --append $openVpnConfigFolder/server-tcp-443.conf &&
-echo "server 172.16.255.0 255.255.255.0" | sudo tee --append $openVpnConfigFolder/server-tcp-443.conf &&
 sudo cp $sourceFolder/server.conf $openVpnConfigFolder/server-udp-1194.conf &&
+# udp
 echo "port 1194" | sudo tee --append $openVpnConfigFolder/server-udp-1194.conf &&
 echo "proto udp" | sudo tee --append $openVpnConfigFolder/server-udp-1194.conf &&
-echo "server 172.16.254.0 255.255.255.0" | sudo tee --append $openVpnConfigFolder/server-udp-1194.conf &&
 #####################################################################
 
 #####################################################################
