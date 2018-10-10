@@ -25,8 +25,7 @@ sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE &&
 sudo iptables -A FORWARD -i tun0 -o eth0 -j ACCEPT &&
 sudo iptables -A FORWARD -i eth0 -o tun0 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT &&
 sudo mkdir /etc/iptables &&
-echo "iptables-save" | sudo tee --append /etc/iptables/rules.v4 &&
+echo "iptables-save" | sudo tee --append /etc/iptables/rules &&
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections &&
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections &&
 sudo apt-get install iptables-persistent -y
-
