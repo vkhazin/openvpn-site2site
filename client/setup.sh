@@ -29,4 +29,4 @@ sudo mkdir /etc/iptables &&
 sudo iptables-save | sudo tee --append /etc/iptables/rules &&
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections &&
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections &&
-sudo apt-get remove iptables-persistent netfilter-persistent -y
+sudo apt-get install iptables-persistent netfilter-persistent -y
