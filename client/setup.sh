@@ -21,6 +21,7 @@ sudo apt-get update &&
 
 # Configure client side routing
 sudo sysctl -w net.ipv4.ip_forward=1 &&
+sudo sed -i 's/\#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf &&
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE &&
 sudo iptables -A FORWARD -i tun0 -o eth0 -j ACCEPT &&
 sudo iptables -A FORWARD -i eth0 -o tun0 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT &&
