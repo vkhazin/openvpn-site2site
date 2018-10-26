@@ -70,7 +70,8 @@ sudo service openvpn start &&
 #####################################################################
 # Configure ip Forwarding                                           #
 #####################################################################
-sudo sysctl -w net.ipv4.ip_forward=1 &&
+# https://askubuntu.com/questions/311053/how-to-make-ip-forwarding-permanent
+# sudo sysctl -w net.ipv4.ip_forward=1 &&
 #####################################################################
 
 #####################################################################
